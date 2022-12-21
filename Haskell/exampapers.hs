@@ -56,3 +56,49 @@ fooHelper [] [] a = []
 fooHelper x y a
     | ((mod a 2) == 1) = take a x ++ fooHelper (drop a x)y (a+1)
     | ((mod a 2) == 0) = take a y ++ fooHelper x (drop a y) (a+1)
+
+--Jan 2017 --
+--Define a Haskell function weaveHunks which takes an int and
+--two lists and weaves them together in hunks of the given size.
+--Be sure to declare its type signature.
+--Examples: weaveHunks 3 "abcdefghijklmno" "ABCDEFGHIJKLMNO" => "abcABCdefDEFghiGHIjklJKLmnoMNO"
+-- weaveHunks 2 [1..10] [11..20] => [1,2,11,12,3,4,13,14,5,6,15,16,7,8,17,18,9,10,19,20]
+weaveHunks n l1 l2
+    | null l1 && null l2 = []
+    | otherwise = take n l1 ++ take n l2 ++ weaveHunks n (drop n l1) (drop n l2)
+
+--Autumn 2016 --
+--Define a function tr which takes a list of lists, all of the same
+--length, and returns their "transpose", meaning a list of lists of
+--the first elements, the second elements, etc. (All lists in test
+--cases can be assumed to be non-empty.) Be sure to include a type signature.
+--Examples: tr [[1,2,3],[4,5,6]] => [[1,4],[2,5],[3,6]]
+--tr ["foxes","socks","rocks"] => ["fsr","ooo","xcc","ekk","sss"]
+tr :: [[a]] -> [[a]]
+tr([]:_) =[]
+tr x = (map head x) : tr ( map tail x)
+
+--Autumn 2015--
+--Define a Haskell function revCount which takes an int and two lists and
+--weaves them together in hunks of the given 
+--Define a Haskell function revCount which takes two lists, 
+--thesecond of which is a list of non-negative Ints the same length as the first list, 
+--and returns a list of elements from the firstlist, 
+--in reverse order, each repeated a number of times asspecified by the corresponding element of the second list. 
+--Be sure to include a type declaration for revCount.
+--Examples revCount ['a','b','c] [1,2,3] => ["c","c","c","b","b","a"]
+revCount p q
+    | (null p) = []
+    | (null q) = p
+    | otherwise = revCount (tail p) (tail q) ++ (replicate (head q) (head p))
+
+
+--Jan 2015--
+--Define afterFilter in Haskell, with the same convention as the above Scheme function. 
+--Be sure to give it an approprate type signature.
+--Examples: afterFilter (<0) [-4,7,-4,-8,3,-3,-6,0,-9,-1] => [7,-8,3,-6,0,-1]
+afterFilter p l1 
+  | (null l1) = []
+  | (null (tail l1)) = []
+  | (p (head l1)) = (head (tail l1)) : (afterFilter p (tail l1))
+  | otherwise = (afterFilter p (tail l1))
